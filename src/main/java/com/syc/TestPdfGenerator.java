@@ -16,7 +16,7 @@ public class TestPdfGenerator {
     public static void main(String[] args) {
         System.out.println("=== Iniciando prueba de generación de PDF por lotes ===");
         
-        testFromFile();
+        testFromFile(1000);
        //Test1();
         // String html = "<tbody>" + 
         //                 "<tr>" +
@@ -83,7 +83,7 @@ public class TestPdfGenerator {
 
         // 3. Ejecutar la generación del PDF
         long startTime = System.currentTimeMillis();
-        boolean success = BatchPdfGenerator.generatePdfBatch(htmlList, outputPath, true);
+        boolean success = BatchPdfGenerator.generatePdfBatch(htmlList, outputPath, true, 5);
         long endTime = System.currentTimeMillis();
 
         if (success) {
@@ -95,12 +95,12 @@ public class TestPdfGenerator {
         }
     }
 
-    public static void testFromFile() {
+    public static void testFromFile(int Pages) {
         System.out.println("=== Iniciando prueba con archivo HTML ===");
 
-        int totalDocumentos = 20000; // Número de documentos en el lote
-        String filePath = "C:\\jcardozo-syc\\GestorIA\\Peticiones\\RM-57216\\CampanaTest.html";
-        String outputPdfPath = "C:\\jcardozo-syc\\GestorIA\\Peticiones\\RM-57216\\CampanaTest_resultado.pdf";
+        int totalDocumentos = Pages; // Número de documentos en el lote
+        String filePath = "C:\\jcardozo-syc\\GestorIA\\Peticiones\\RM-57216\\CpnObId-96277.html";
+        String outputPdfPath = "C:\\jcardozo-syc\\GestorIA\\Peticiones\\RM-57216\\CpnObId-96277.pdf";
 
         try {
             Path path = Paths.get(filePath);
@@ -126,7 +126,7 @@ public class TestPdfGenerator {
 
             // 4. Generar el PDF (fitToPage = true para probar el escalado)
             long startTime = System.currentTimeMillis();
-            boolean success = BatchPdfGenerator.generatePdfBatch(htmlList, outputPdfPath, true);
+            boolean success = BatchPdfGenerator.generatePdfBatch(htmlList, outputPdfPath, true, 5);
             long endTime = System.currentTimeMillis();
 
             if (success) {
