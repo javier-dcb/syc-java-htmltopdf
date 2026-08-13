@@ -22,16 +22,20 @@ public class BatchPdfGenerator {
             return false;
         }
 
-        // Si son pocos documentos, procesar directamente en memoria
-        if (rawHtmlList.size() <= BATCH_SIZE) {
-            return processChunk(rawHtmlList, new File(outputPath), fitToPage, timeoutSeconds);
-        }
-
-        // Si es un lote masivo (ej. 30.000), procesar por micro-lotes
         List<File> tempFiles = new ArrayList<>();
-        int total = rawHtmlList.size();
-
         try {
+            // Si son pocos documentos, procesar directamente en memoria
+            if (rawHtmlList.size() <= BATCH_SIZE) {
+                boolean success = processChunk(rawHtmlList, new File(outputPath), fitToPage, timeoutSeconds);
+                if (!success) {
+                    throw new IOException("Error al generar PDF");
+                }
+                return success;
+            }
+
+            // Si es un lote masivo (ej. 30.000), procesar por micro-lotes
+            int total = rawHtmlList.size();
+
             for (int i = 0; i < total; i += BATCH_SIZE) {
                 int end = Math.min(i + BATCH_SIZE, total);
                 List<String> subList = rawHtmlList.subList(i, end);
