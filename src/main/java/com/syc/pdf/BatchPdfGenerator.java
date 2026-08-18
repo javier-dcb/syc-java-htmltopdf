@@ -89,8 +89,11 @@ public class BatchPdfGenerator {
 
         // Si en el futuro reactivas fixImageUrls, lo aplicas aquí:
         // String htmlToParse = fixImageUrls(rawHtml);
+
+        // Limpiar los comentarios del HTML usando Regex (cubre múltiples líneas)
+        String htmlToParse = rawHtml.replaceAll("(?s)<!--.*?-->", "");
         
-        Document doc = Jsoup.parse(rawHtml);
+        Document doc = Jsoup.parse(htmlToParse);
         doc.outputSettings()
            .syntax(Document.OutputSettings.Syntax.xml)
            .escapeMode(Entities.EscapeMode.xhtml)
